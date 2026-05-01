@@ -2,29 +2,34 @@ spring:
   application:
     name: api-gateway
 
+  main:
+    web-application-type: reactive
+
   cloud:
     gateway:
-      routes:
-        - id: user-service
-          uri: lb://user-service
-          predicates:
-            - Path=/auth/**
-          filters:
-            - AuthenticationFilter
+      server:
+        webflux:
+          routes:
+            - id: user-service
+              uri: lb://user-service
+              predicates:
+                - Path=/auth/**
+              filters:
+                - AuthenticationFilter
 
-        - id: product-service
-          uri: lb://product-service
-          predicates:
-            - Path=/products/**
-          filters:
-            - AuthenticationFilter
+            - id: product-service
+              uri: lb://product-service
+              predicates:
+                - Path=/products/**
+              filters:
+                - AuthenticationFilter
 
-        - id: order-service
-          uri: lb://order-service
-          predicates:
-            - Path=/orders/**
-          filters:
-            - AuthenticationFilter
+            - id: order-service
+              uri: lb://order-service
+              predicates:
+                - Path=/orders/**
+              filters:
+                - AuthenticationFilter
 
 server:
   port: 8080
